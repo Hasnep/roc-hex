@@ -1,4 +1,4 @@
-interface Utils exposes [enumerate, unwrap, trimLeftUnsafe, identity] imports []
+interface Utils exposes [unwrap, enumerate, zip, identity] imports []
 
 unwrap : [Ok a, Err _], Str -> a
 unwrap = \x, message ->
@@ -10,16 +10,22 @@ expect
     out = "hi" |> Ok |> unwrap "Oh no!"
     out == "hi"
 
-enumerate = \list -> List.range { start: At 0, end: At (List.len list) } |> List.map2 list (\element, index -> (element, index))
+zip = \listA, listB ->
+    List.map2 listA listB (\a, b -> (a, b))
 
 expect
-    out = enumerate ["a", "b", "c"]
-    out == [(0, "a"), (1, "b"), (2, "c")]
+    out = zip [A, B, C] [3, 2, 1]
+    out == [(A, 3), (B, 2), (C, 1)]
 
-trimLeftUnsafe = \s, toRemove -> (s |> Str.splitFirst toRemove |> unwrap (Str.joinWith ["You promised that `", toRemove, "` would be in the string!"] "")).after
+enumerate = \list ->
+    List.range { start: At 0, end: At (List.len list) } |> zip list
 
 expect
-    out = trimLeftUnsafe "Hello, Roc." "Hello"
-    out == ", Roc."
+    out = enumerate [A, B, C]
+    out == [(0, A), (1, B), (2, C)]
 
 identity = \x -> x
+
+expect
+    out = identity A
+    out == A
