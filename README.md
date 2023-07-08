@@ -1,6 +1,6 @@
 # Roc Hex
 
-A work in progress library for working with hexadecimal numbers in Roc.
+A library for working with hexadecimal numbers in Roc.
 
 Based on the [elm-hex](https://github.com/rtfeldman/elm-hex) library for Elm.
 
